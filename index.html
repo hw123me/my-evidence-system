@@ -240,6 +240,9 @@
       }
 
       async function login() {
+        const loginBtn = document.getElementById("loginBtn");
+        const originalContent = loginBtn.innerHTML; // حفظ نص "دخول للنظام" لاستعادته لاحقاً
+
         const payload = {
           action: "login",
           username: document.getElementById("logUser").value.trim(),
@@ -251,6 +254,11 @@
           return;
         }
 
+        // --- بدء حالة التحميل ---
+        loginBtn.disabled = true; // تعطيل الزر
+        loginBtn.classList.add("btn-loading");
+        loginBtn.innerHTML = '<div class="spinner"></div> جاري التحقق...';
+
         try {
           const response = await fetch(SCRIPT_URL, {
             method: "POST",
@@ -259,13 +267,12 @@
           const result = await response.json();
 
           if (result.status === "success") {
+            // حفظ البيانات والانتقال
             localStorage.setItem("userName", result.fullname);
             localStorage.setItem("userRole", result.role);
             localStorage.setItem("userID", payload.username);
 
             const userRole = result.role.trim();
-            console.log("الدور المستلم:", userRole);
-
             if (userRole === "مدير") {
               window.location.href = "admin.html";
             } else {
@@ -273,10 +280,21 @@
             }
           } else {
             alert("اسم المستخدم أو كلمة المرور غير صحيحة");
+            // --- استعادة الزر في حال فشل البيانات ---
+            resetButton(loginBtn, originalContent);
           }
         } catch (e) {
           alert("فشل الدخول، تحقق من إعدادات الـ Script");
+          // --- استعادة الزر في حال فشل الاتصال ---
+          resetButton(loginBtn, originalContent);
         }
+      }
+
+      // دالة مساعدة لإعادة الزر لحالته الطبيعية
+      function resetButton(btn, content) {
+        btn.disabled = false;
+        btn.classList.remove("btn-loading");
+        btn.innerHTML = content;
       }
     </script>
   </body>

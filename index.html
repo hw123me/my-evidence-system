@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
@@ -54,7 +54,8 @@
         color: #555;
       }
 
-      input, select {
+      input,
+      select {
         width: 100%;
         padding: 12px;
         border: 2px solid #eee;
@@ -64,7 +65,8 @@
         transition: border-color 0.3s ease;
       }
 
-      input:focus, select:focus {
+      input:focus,
+      select:focus {
         border-color: var(--primary-color);
         outline: none;
       }
@@ -80,7 +82,9 @@
         font-size: 1.1rem;
         font-weight: bold;
         margin-top: 1rem;
-        transition: background-color 0.3s ease, transform 0.2s ease;
+        transition:
+          background-color 0.3s ease,
+          transform 0.2s ease;
       }
 
       button:hover {
@@ -117,6 +121,31 @@
           margin: 10px;
         }
       }
+      /* تنسيق حالة التحميل داخل الزر */
+      .btn-loading {
+        cursor: not-allowed;
+        opacity: 0.7;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+      }
+
+      /* شكل الدوامة (Spinner) */
+      .spinner {
+        width: 18px;
+        height: 18px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: #fff;
+        animation: spin 1s ease-in-out infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
     </style>
   </head>
   <body>
@@ -131,7 +160,7 @@
           <label>كلمة المرور</label>
           <input type="password" id="logPass" placeholder="أدخل كلمة المرور" />
         </div>
-        <button onclick="login()">دخول للنظام</button>
+        <button onclick="login()" id="loginBtn">دخول للنظام</button>
         <p class="toggle-link" onclick="toggleForms()">
           ليس لديك حساب؟ <span>سجل الآن</span>
         </p>
@@ -170,7 +199,8 @@
     </div>
 
     <script>
-      const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzxVQCCJRZaptxBssvkq1dmn0Dk_FSKv1y-Q2UaOlIDcAT8nvMC98U34rx9ZB5Zk4sG/exec";
+      const SCRIPT_URL =
+        "https://script.google.com/macros/s/AKfycbzxVQCCJRZaptxBssvkq1dmn0Dk_FSKv1y-Q2UaOlIDcAT8nvMC98U34rx9ZB5Zk4sG/exec";
 
       function toggleForms() {
         document.getElementById("loginForm").classList.toggle("hidden");
@@ -232,7 +262,7 @@
             localStorage.setItem("userName", result.fullname);
             localStorage.setItem("userRole", result.role);
             localStorage.setItem("userID", payload.username);
-            
+
             const userRole = result.role.trim();
             console.log("الدور المستلم:", userRole);
 

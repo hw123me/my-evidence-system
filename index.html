@@ -116,8 +116,12 @@
             localStorage.setItem("userName", result.fullname);
             localStorage.setItem("userRole", result.role);
             localStorage.setItem("userID", payload.username);
-            
-            window.location.href = "dashboard.html";
+            if(result.role === "مدير") {
+                window.location.href = "admin.html";
+            } else {
+                window.location.href = "dashboard.html";
+            }
+           
         } else {
             alert("اسم المستخدم أو كلمة المرور غير صحيحة");
         }

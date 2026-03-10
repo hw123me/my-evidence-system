@@ -1,0 +1,141 @@
+/* 1. المتغيرات العامة */
+:root {
+    --primary-color: #1a73e8;
+    --secondary-color: #1557b0;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --admin-primary: #2c3e50;
+    --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    --bg-light: #f8f9fa;
+    --white: #ffffff;
+    --text-color: #333;
+    --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    --border-radius: 12px;
+}
+
+/* 2. التنسيق الأساسي للجسم */
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg-light);
+    margin: 0;
+    color: var(--text-color);
+    min-height: 100vh;
+}
+
+/* التنسيق الخاص بصفحة الدخول (التي تحتاج توسيط كامل) */
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--bg-gradient);
+}
+
+/* 3. الحاويات والبطاقات */
+.container {
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 0 20px;
+}
+
+.card, .container-box {
+    background: var(--white);
+    padding: 2.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease;
+}
+
+/* 4. العناصر النصية */
+h1, h2, h3, h4 {
+    color: var(--primary-color);
+    text-align: center;
+}
+
+/* 5. النماذج والحقول */
+.form-group {
+    margin-bottom: 1.2rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #555;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #eee;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+input:focus, select:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+/* 6. الأزرار */
+button, .btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: 0.3s;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-primary { background-color: var(--primary-color); color: white; }
+.btn-success { background-color: var(--success-color); color: white; }
+.btn-danger { background-color: var(--danger-color); color: white; }
+
+button:hover, .btn:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+}
+
+/* 7. الجداول (للمدير والمعلم) */
+.table-container {
+    overflow-x: auto;
+    background: var(--white);
+    border-radius: var(--border-radius);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-bottom: 2px solid #eee;
+}
+
+td {
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+/* 8. حالة التحميل (Spinner) */
+.spinner {
+    width: 18px;
+    height: 18px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.hidden { display: none; }

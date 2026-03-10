@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>لوحة التحكم - نظام الشواهد</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
+        .card { background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .btn-upload { background: #28a745; color: white; border: none; padding: 8px 15px; cursor: pointer; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>مرحباً بك، <span id="displayName"></span></h1>
+    <h3>دورك الحالي: <span id="displayRole"></span></h3>
+    <hr>
+    <div id="evidenceContainer">جاري تحميل الشواهد...</div>
+
+    <script>
+        // 1. قراءة البيانات المحفوظة من صفحة الدخول
+        const role = localStorage.getItem("userRole");
+        const name = localStorage.getItem("userName");
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzxVQCCJRZaptxBssvkq1dmn0Dk_FSKv1y-Q2UaOlIDcAT8nvMC98U34rx9ZB5Zk4sG/exec"; // ضع رابط الـ Web App الخاص بك هنا
+
+        if (!role) {
+            alert("الرجاء تسجيل الدخول أولاً");
+            window.location.href = "index.html";
+        }
+
+        document.getElementById('displayName').innerText = name;
+        document.getElementById('displayRole').innerText = role;
+
+        // 2. طلب الشواهد من جوجل بناءً على الدور
+        async function loadEvidence() {
+            const response = await fetch(SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify({ action: "getEvidence", role: role })
+            });
+            const evidenceList = await response.json();
+            
+            const container = document.getElementById('evidenceContainer');
+            container.innerHTML = ""; // مسح رسالة التحميل
+
+            if (evidenceList.length === 0) {
+                container.innerHTML = "<p>لا توجد شواهد مخصصة لدورك حالياً.</p>";
+                return;
+            }
+
+            evidenceList.forEach(item => {
+                const card = `
+                    <div class="card">
+                        <h4>${item.title}</h4>
+                        <p>${item.description}</p>
+                        <button class="btn-upload" onclick="goToUpload('${item.title}')">رفع الشاهد</button>
+                    </div>
+                `;
+                container.innerHTML += card;
+            });
+        }
+
+        function goToUpload(title) {
+            localStorage.setItem("selectedEvidence", title);
+            window.location.href = "upload.html";
+        }
+
+        loadEvidence();
+    </script>
+</body>
+</html>

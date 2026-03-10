@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>لوحة الإدارة - عرض الشواهد</title>
+    <style>
+        body { font-family: Arial; background: #f0f2f5; padding: 20px; }
+        .admin-container { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: center; }
+        th { background-color: #1a73e8; color: white; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        .view-btn { background: #17a2b8; color: white; padding: 5px 10px; text-decoration: none; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+<div class="admin-container">
+    <h2>لوحة تحكم المدير - الشواهد المرفوعة</h2>
+    <div id="loading">جاري تحميل البيانات...</div>
+    <table id="adminTable" style="display:none;">
+        <thead>
+            <tr>
+                <th>التاريخ</th>
+                <th>اسم المستخدم</th>
+                <th>اسم الشاهد</th>
+                <th>الملف</th>
+            </tr>
+        </thead>
+        <tbody id="adminBody"></tbody>
+    </table>
+    <br>
+    <button onclick="location.href='index.html'" style="padding:10px;">تسجيل الخروج</button>
+</div>
+
+<script>
+    const SCRIPT_URL = "رابط_جوجل_هنا";
+
+    async function loadAdminData() {
+        try {
+            const response = await fetch(SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify({ action: "getAllSubmissions" })
+            });
+            const data = await response.json();
+            
+            const tableBody = document.getElementById('adminBody');
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('adminTable').style.display = 'table';
+
+            data.reverse().forEach(row => { // reverse لعرض الأحدث أولاً
+                const tr = `
+                    <tr>
+                        <td>${row.date}</td>
+                        <td>${row.username}</td>
+                        <td>${row.evidenceTitle}</td>
+                        <td><a href="${row.fileUrl}" target="_blank" class="view-btn">عرض الملف</a></td>
+                    </tr>
+                `;
+                tableBody.innerHTML += tr;
+            });
+        } catch (error) {
+            document.getElementById('loading').innerText = "حدث خطأ أثناء جلب البيانات.";
+        }
+    }
+
+    // تأكد من أن المستخدم هو مدير فعلاً (اختياري للأمان)
+    const role = localStorage.getItem("userRole");
+    if(role !== "مدير") { 
+        // يمكنك إضافة شرط هنا أو كلمة مرور إضافية
+    }
+
+    loadAdminData();
+</script>
+
+</body>
+</html>

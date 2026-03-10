@@ -1,79 +1,128 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>نظام توثيق الشواهد - الدخول</title>
     <style>
+      :root {
+        --primary-color: #1a73e8;
+        --secondary-color: #1557b0;
+        --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        --white: #ffffff;
+        --text-color: #333;
+        --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
+
       body {
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #f0f2f5;
+        background: var(--bg-gradient);
         display: flex;
         justify-content: center;
         align-items: center;
         height: 100vh;
         margin: 0;
+        color: var(--text-color);
       }
+
       .container {
-        background: white;
-        padding: 2rem;
-        border-radius: 10px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        background: var(--white);
+        padding: 2.5rem;
+        border-radius: 15px;
+        box-shadow: var(--shadow);
         width: 100%;
-        max-width: 400px;
+        max-width: 420px;
+        transition: transform 0.3s ease;
       }
+
       h2 {
         text-align: center;
-        color: #1a73e8;
+        color: var(--primary-color);
+        margin-bottom: 1.5rem;
+        font-weight: 600;
       }
+
       .form-group {
-        margin-bottom: 1rem;
+        margin-bottom: 1.2rem;
       }
+
       label {
         display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
+        margin-bottom: 8px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #555;
       }
-      input,
-      select {
+
+      input, select {
         width: 100%;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
+        padding: 12px;
+        border: 2px solid #eee;
+        border-radius: 8px;
         box-sizing: border-box;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
       }
+
+      input:focus, select:focus {
+        border-color: var(--primary-color);
+        outline: none;
+      }
+
       button {
         width: 100%;
-        padding: 10px;
-        background-color: #1a73e8;
+        padding: 12px;
+        background-color: var(--primary-color);
         color: white;
         border: none;
-        border-radius: 5px;
+        border-radius: 8px;
         cursor: pointer;
-        font-size: 16px;
-        margin-top: 10px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        margin-top: 1rem;
+        transition: background-color 0.3s ease, transform 0.2s ease;
       }
+
       button:hover {
-        background-color: #1557b0;
+        background-color: var(--secondary-color);
+        transform: translateY(-2px);
       }
+
+      button:active {
+        transform: translateY(0);
+      }
+
       .toggle-link {
         text-align: center;
-        margin-top: 15px;
-        font-size: 14px;
-        color: #555;
+        margin-top: 20px;
+        font-size: 0.9rem;
+        color: #666;
         cursor: pointer;
+      }
+
+      .toggle-link span {
+        color: var(--primary-color);
+        font-weight: bold;
         text-decoration: underline;
       }
+
       .hidden {
         display: none;
+      }
+
+      /* تحسين استجابة الجوال */
+      @media (max-width: 480px) {
+        .container {
+          padding: 1.5rem;
+          margin: 10px;
+        }
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <!-- نموذج تسجيل الدخول -->
       <div id="loginForm">
-        <h2>تسجيل الدخول</h2>
+        <h2>مرحباً بك</h2>
         <div class="form-group">
           <label>اسم المستخدم</label>
           <input type="text" id="logUser" placeholder="أدخل اسم المستخدم" />
@@ -82,15 +131,14 @@
           <label>كلمة المرور</label>
           <input type="password" id="logPass" placeholder="أدخل كلمة المرور" />
         </div>
-        <button onclick="login()">دخول</button>
+        <button onclick="login()">دخول للنظام</button>
         <p class="toggle-link" onclick="toggleForms()">
-          ليس لديك حساب؟ سجل الآن
+          ليس لديك حساب؟ <span>سجل الآن</span>
         </p>
       </div>
 
-      <!-- نموذج التسجيل الجديد -->
       <div id="registerForm" class="hidden">
-        <h2>تسجيل حساب جديد</h2>
+        <h2>إنشاء حساب</h2>
         <div class="form-group">
           <label>الاسم الكامل</label>
           <input type="text" id="regName" placeholder="الاسم الثلاثي" />
@@ -107,6 +155,7 @@
             <option value="موجه طلابي">موجه طلابي</option>
             <option value="رائد نشاط">رائد نشاط</option>
             <option value="محضر مختبر">محضر مختبر</option>
+            <option value="مدير">مدير</option>
           </select>
         </div>
         <div class="form-group">
@@ -115,27 +164,24 @@
         </div>
         <button onclick="register()">إنشاء الحساب</button>
         <p class="toggle-link" onclick="toggleForms()">
-          لديك حساب بالفعل؟ دخول
+          لديك حساب بالفعل؟ <span>سجل دخولك</span>
         </p>
       </div>
     </div>
 
     <script>
-      const SCRIPT_URL =
-        "https://script.google.com/macros/s/AKfycbzxVQCCJRZaptxBssvkq1dmn0Dk_FSKv1y-Q2UaOlIDcAT8nvMC98U34rx9ZB5Zk4sG/exec"; // ضع رابط الـ Web App الخاص بك هنا
+      const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzxVQCCJRZaptxBssvkq1dmn0Dk_FSKv1y-Q2UaOlIDcAT8nvMC98U34rx9ZB5Zk4sG/exec";
 
-      // التبديل بين نماذج الدخول والتسجيل
       function toggleForms() {
         document.getElementById("loginForm").classList.toggle("hidden");
         document.getElementById("registerForm").classList.toggle("hidden");
       }
 
-      // دالة التسجيل
       async function register() {
         const payload = {
           action: "register",
-          fullname: document.getElementById("regName").value,
-          username: document.getElementById("regUser").value,
+          fullname: document.getElementById("regName").value.trim(),
+          username: document.getElementById("regUser").value.trim(),
           role: document.getElementById("regRole").value,
           password: document.getElementById("regPass").value,
         };
@@ -145,49 +191,61 @@
           return;
         }
 
-        const response = await fetch(SCRIPT_URL, {
-          method: "POST",
-          body: JSON.stringify(payload),
-        });
-        const result = await response.json();
+        try {
+          const response = await fetch(SCRIPT_URL, {
+            method: "POST",
+            body: JSON.stringify(payload),
+          });
+          const result = await response.json();
 
-        if (result === "exists") {
-          alert("اسم المستخدم موجود مسبقاً، اختر اسماً آخر");
-        } else if (result === "success") {
-          alert("تم التسجيل بنجاح! يمكنك الآن تسجيل الدخول");
-          toggleForms();
+          if (result === "exists") {
+            alert("اسم المستخدم موجود مسبقاً، اختر اسماً آخر");
+          } else if (result === "success") {
+            alert("تم التسجيل بنجاح! يمكنك الآن تسجيل الدخول");
+            toggleForms();
+          }
+        } catch (e) {
+          alert("حدث خطأ أثناء الاتصال، يرجى المحاولة لاحقاً");
         }
       }
 
-      // دالة تسجيل الدخول
       async function login() {
         const payload = {
           action: "login",
-          username: document.getElementById("logUser").value,
+          username: document.getElementById("logUser").value.trim(),
           password: document.getElementById("logPass").value,
         };
 
-        const response = await fetch(SCRIPT_URL, {
-          method: "POST",
-          body: JSON.stringify(payload),
-        });
-        const result = await response.json();
+        if (!payload.username || !payload.password) {
+          alert("يرجى إدخال اسم المستخدم وكلمة المرور");
+          return;
+        }
 
-        if (result.status === "success") {
-          // حفظ البيانات في ذاكرة المتصفح للانتقال لصفحة الشواهد
-          localStorage.setItem("userName", result.fullname);
-          localStorage.setItem("userRole", result.role);
-          localStorage.setItem("userID", payload.username);
-          const userRole = result.role.trim(); // تنظيف الكلمة من المسافات
-          console.log("الدور المستلم:", userRole);
+        try {
+          const response = await fetch(SCRIPT_URL, {
+            method: "POST",
+            body: JSON.stringify(payload),
+          });
+          const result = await response.json();
 
-          if (userRole === "مدير") {
-            window.location.href = "admin.html";
+          if (result.status === "success") {
+            localStorage.setItem("userName", result.fullname);
+            localStorage.setItem("userRole", result.role);
+            localStorage.setItem("userID", payload.username);
+            
+            const userRole = result.role.trim();
+            console.log("الدور المستلم:", userRole);
+
+            if (userRole === "مدير") {
+              window.location.href = "admin.html";
+            } else {
+              window.location.href = "dashboard.html";
+            }
           } else {
-            window.location.href = "dashboard.html";
+            alert("اسم المستخدم أو كلمة المرور غير صحيحة");
           }
-        } else {
-          alert("اسم المستخدم أو كلمة المرور غير صحيحة");
+        } catch (e) {
+          alert("فشل الدخول، تحقق من إعدادات الـ Script");
         }
       }
     </script>

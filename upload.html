@@ -1,133 +1,227 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
-  <head>
+<head>
     <meta charset="UTF-8" />
-    <title>رفع الشاهد</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>رفع الشاهد - نظام التوثيق</title>
     <style>
-      body {
-        font-family: Arial;
-        background: #f4f4f4;
-        padding: 20px;
-        text-align: center;
-      }
-      .upload-box {
-        background: white;
-        padding: 30px;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        max-width: 500px;
-        margin: auto;
-      }
-      input[type="file"] {
-        margin: 20px 0;
-      }
-      #status {
-        margin-top: 20px;
-        color: #1a73e8;
-        font-weight: bold;
-      }
-      .btn-back {
-        background: #6c757d;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        cursor: pointer;
-        margin-top: 20px;
-      }
+        :root {
+            --primary: #1a73e8;
+            --success: #28a745;
+            --bg: #f0f2f5;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .upload-card {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .header-box {
+            margin-bottom: 25px;
+        }
+
+        .header-box h3 {
+            color: var(--primary);
+            margin: 0 0 10px 0;
+            font-size: 1.5rem;
+        }
+
+        .header-box p {
+            color: #666;
+            font-size: 0.9rem;
+            background: #eef4ff;
+            padding: 8px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        /* تخصيص منطقة اختيار الملف */
+        .file-drop-area {
+            position: relative;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            padding: 40px 20px;
+            border: 2px dashed #cbd5e0;
+            border-radius: 12px;
+            background-color: #f8fafc;
+            transition: 0.3s;
+            margin-bottom: 25px;
+        }
+
+        .file-drop-area:hover {
+            border-color: var(--primary);
+            background-color: #f1f7ff;
+        }
+
+        .file-icon {
+            font-size: 50px;
+            margin-bottom: 10px;
+        }
+
+        input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .btn-main {
+            background: var(--success);
+            color: white;
+            padding: 12px 40px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.3s;
+        }
+
+        .btn-main:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        #status {
+            margin-top: 20px;
+            min-height: 24px;
+            font-size: 0.95rem;
+        }
+
+        .btn-back {
+            display: inline-block;
+            margin-top: 25px;
+            color: #718096;
+            text-decoration: none;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        .btn-back:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        /* أنيميشن بسيط للتحميل */
+        .loading {
+            color: var(--primary);
+            font-weight: bold;
+        }
     </style>
-  </head>
-  <body>
-    <div class="upload-box">
-      <h3>رفع شاهد: <span id="targetEvidence"></span></h3>
-      <p>المستخدم: <span id="userDisplay"></span></p>
+</head>
+<body>
+    <div class="upload-card">
+        <div class="header-box">
+            <h3>رفع شاهد: <span id="targetEvidence">...</span></h3>
+            <p>المستخدم: <strong id="userDisplay">...</strong></p>
+        </div>
 
-      <input type="file" id="fileInput" />
-      <br />
-      <button
-        onclick="uploadProcess()"
-        style="
-          background: #28a745;
-          color: white;
-          padding: 10px 30px;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;
-        "
-      >
-        ابدأ الرفع الآن
-      </button>
+        <div class="file-drop-area" id="dropArea">
+            <div class="file-icon">📁</div>
+            <span id="fileNameDisplay">اضغط هنا لاختيار الملف أو اسحبه إلى هنا</span>
+            <input type="file" id="fileInput" onchange="updateFileName()" />
+        </div>
 
-      <div id="status"></div>
-      <button class="btn-back" onclick="location.href = 'dashboard.html'">
-        العودة للوحة التحكم
-      </button>
+        <button class="btn-main" onclick="uploadProcess()">
+            ابدأ عملية الرفع
+        </button>
+
+        <div id="status"></div>
+
+        <button class="btn-back" onclick="location.href = 'dashboard.html'">
+            ← العودة للوحة التحكم
+        </button>
     </div>
 
     <script>
-      const SCRIPT_URL =
-        "https://script.google.com/macros/s/AKfycbzxVQCCJRZaptxBssvkq1dmn0Dk_FSKv1y-Q2UaOlIDcAT8nvMC98U34rx9ZB5Zk4sG/exec"; // ضع رابط الـ Web App الخاص بك هنا
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzxVQCCJRZaptxBssvkq1dmn0Dk_FSKv1y-Q2UaOlIDcAT8nvMC98U34rx9ZB5Zk4sG/exec";
 
-      const selectedEvidence = localStorage.getItem("selectedEvidence");
-      const username = localStorage.getItem("userID");
+        const selectedEvidence = localStorage.getItem("selectedEvidence");
+        const username = localStorage.getItem("userID");
 
-      document.getElementById("targetEvidence").innerText = selectedEvidence;
-      document.getElementById("userDisplay").innerText = username;
+        document.getElementById("targetEvidence").innerText = selectedEvidence || "غير محدد";
+        document.getElementById("userDisplay").innerText = username || "زائر";
 
-      function uploadProcess() {
-        const fileInput = document.getElementById("fileInput");
-        const status = document.getElementById("status");
-
-        if (fileInput.files.length === 0) {
-          alert("الرجاء اختيار ملف أولاً");
-          return;
+        function updateFileName() {
+            const input = document.getElementById('fileInput');
+            const display = document.getElementById('fileNameDisplay');
+            if (input.files.length > 0) {
+                display.innerText = "تم اختيار: " + input.files[0].name;
+                display.style.color = "#1a73e8";
+                display.style.fontWeight = "bold";
+            }
         }
 
-        const file = fileInput.files[0];
-        const reader = new FileReader();
-        status.innerText = "جاري معالجة الملف...";
+        function uploadProcess() {
+            const fileInput = document.getElementById("fileInput");
+            const status = document.getElementById("status");
 
-        reader.onload = async function (e) {
-          const base64Data = e.target.result.split(",")[1];
-          const payload = {
-            action: "uploadFile",
-            username: username,
-            evidenceTitle: selectedEvidence,
-            fileName: file.name,
-            mimeType: file.type,
-            base64Data: base64Data,
-          };
-
-          status.innerText = "جاري الرفع إلى السحابة... يرجى الانتظار";
-
-          try {
-            console.log("إرسال البيانات إلى:", SCRIPT_URL);
-            const response = await fetch(SCRIPT_URL, {
-              method: "POST",
-              body: JSON.stringify(payload),
-            });
-
-            // إذا كنت تستخدم mode: 'no-cors' فلن تستطيع قراءة result.json()
-            // جرب تشغيل الكود بدون no-cors أولاً، فإذا ظهر خطأ CORS، سنغير الاستراتيجية.
-            const result = await response.json();
-            console.log("رد السيرفر:", result);
-
-            if (result.status === "success") {
-              status.innerHTML = "✅ تم الرفع بنجاح!";
-              fileInput.value = "";
-            } else {
-              status.innerText = "❌ خطأ من السيرفر: " + result.message;
+            if (fileInput.files.length === 0) {
+                alert("الرجاء اختيار ملف أولاً");
+                return;
             }
-          } catch (error) {
-            console.error("Error Detail:", error);
-            status.innerText =
-              "❌ تعذر الاتصال أو قراءة الرد (تحقق من Console)";
-          }
-        };
 
-        reader.readAsDataURL(file);
-        // إذا كنت تواجه مشاكل CORS، يمكنك تجربة هذا الحل البديل:
-      }
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            status.innerHTML = '<span class="loading">⏳ جاري معالجة الملف...</span>';
+
+            reader.onload = async function (e) {
+                const base64Data = e.target.result.split(",")[1];
+                const payload = {
+                    action: "uploadFile",
+                    username: username,
+                    evidenceTitle: selectedEvidence,
+                    fileName: file.name,
+                    mimeType: file.type,
+                    base64Data: base64Data,
+                };
+
+                status.innerHTML = '<span class="loading">☁️ جاري الرفع للسحابة... يرجى الانتظار</span>';
+
+                try {
+                    const response = await fetch(SCRIPT_URL, {
+                        method: "POST",
+                        body: JSON.stringify(payload),
+                    });
+                    const result = await response.json();
+
+                    if (result.status === "success") {
+                        status.innerHTML = "<b style='color:#28a745;'>✅ تم الرفع بنجاح وحفظ الرابط!</b>";
+                        fileInput.value = "";
+                        document.getElementById('fileNameDisplay').innerText = "اضغط لاختيار ملف آخر";
+                    } else {
+                        status.innerHTML = "<b style='color:#dc3545;'>❌ خطأ: " + result.message + "</b>";
+                    }
+                } catch (error) {
+                    status.innerHTML = "<b style='color:#dc3545;'>❌ حدث خطأ في الاتصال بالسيرفر</b>";
+                }
+            };
+
+            reader.readAsDataURL(file);
+        }
     </script>
-  </body>
+</body>
 </html>

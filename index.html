@@ -116,6 +116,7 @@
             localStorage.setItem("userName", result.fullname);
             localStorage.setItem("userRole", result.role);
             localStorage.setItem("userID", payload.username);
+            console.log(result.role);
             if(result.role === "مدير") {
                 window.location.href = "admin.html";
             } else {

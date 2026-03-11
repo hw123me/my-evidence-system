@@ -132,6 +132,17 @@
         } else {
           document.getElementById("uploadSection").classList.add("d-none");
           document.getElementById("mainDashboard").classList.remove("d-none");
+
+          // --- الأسطر الجديدة لتنظيف المربع ---
+          document.getElementById("fileInput").value = ""; // مسح الملف المختار من الذاكرة
+          document.getElementById("fileNameDisplay").innerText =
+            "اضغط هنا لاختيار الملف أو اسحبه هنا";
+          document.getElementById("fileNameDisplay").className =
+            "text-secondary fw-bold";
+          document.getElementById("status").innerHTML = ""; // مسح رسائل النجاح أو الخطأ القديمة
+          document.getElementById("uploadBtn").disabled = false; // إعادة تفعيل الزر
+          // ----------------------------------
+
           loadEvidence(); // إعادة تحميل البيانات لتحديث القوائم تحت الكروت
         }
       }
@@ -244,8 +255,7 @@
             if (result.status === "success") {
               status.innerHTML =
                 "<div class='alert alert-success py-2 small'>✅ تم الرفع بنجاح!</div>";
-              document.getElementById("targetEvidence").innerText = "";
-              document.getElementById("displayName").innerText = "";
+
               setTimeout(() => toggleView("main"), 1000);
             } else {
               status.innerHTML =

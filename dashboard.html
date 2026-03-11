@@ -125,26 +125,29 @@
       document.getElementById("displayRole").innerText = role;
 
       function toggleView(view, evidenceTitle = "") {
+        // 1. تنظيف شامل قبل البدء بأي عملية تبديل (لضمان الفراغ)
+        document.getElementById("fileInput").value = "";
+        document.getElementById("status").innerHTML = "";
+        document.getElementById("fileNameDisplay").innerText =
+          "اضغط هنا لاختيار الملف أو اسحبه هنا";
+        document.getElementById("fileNameDisplay").className =
+          "text-secondary fw-bold";
+        document.getElementById("uploadBtn").disabled = false;
+
         if (view === "upload") {
+          // 2. عند الدخول للرفع: نضع الاسم الجديد فقط
+          document.getElementById("targetEvidence").innerText = evidenceTitle;
+
           document.getElementById("mainDashboard").classList.add("d-none");
           document.getElementById("uploadSection").classList.remove("d-none");
-          document.getElementById("targetEvidence").innerText = evidenceTitle;
         } else {
+          // 3. عند العودة للمرئيسية: نتأكد من تصفير اسم الشاهد تماماً
+          document.getElementById("targetEvidence").innerText = "";
+
           document.getElementById("uploadSection").classList.add("d-none");
           document.getElementById("mainDashboard").classList.remove("d-none");
 
-          // --- الأسطر الجديدة لتنظيف المربع ---
-          document.getElementById("fileInput").value = ""; // مسح الملف المختار من الذاكرة
-          document.getElementById("fileNameDisplay").innerText =
-            "اضغط هنا لاختيار الملف أو اسحبه هنا";
-          document.getElementById("fileNameDisplay").className =
-            "text-secondary fw-bold";
-          document.getElementById("status").innerHTML = ""; // مسح رسائل النجاح أو الخطأ القديمة
-          document.getElementById("targetEvidence").innerText = "";
-          document.getElementById("uploadBtn").disabled = false; // إعادة تفعيل الزر
-          // ----------------------------------
-
-          loadEvidence(); // إعادة تحميل البيانات لتحديث القوائم تحت الكروت
+          loadEvidence(); // تحديث القوائم
         }
       }
 

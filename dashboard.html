@@ -137,8 +137,6 @@
       }
 
       async function loadEvidence() {
-        document.getElementById("targetEvidence").innerText = "...";
-        document.getElementById("displayName").innerText = "...";
         try {
           // جلب الشواهد والمرفوعات بالتوازي لسرعة الأداء
           const [evRes, subRes] = await Promise.all([
@@ -247,6 +245,8 @@
               status.innerHTML =
                 "<div class='alert alert-success py-2 small'>✅ تم الرفع بنجاح!</div>";
               setTimeout(() => toggleView("main"), 1000);
+              document.getElementById("targetEvidence").innerText = "...";
+              document.getElementById("displayName").innerText = "...";
             } else {
               status.innerHTML =
                 "<div class='alert alert-danger py-2 small'>❌ " +

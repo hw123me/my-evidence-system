@@ -4,39 +4,93 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>إدارة النظام - استعراض الشواهد</title>
-    <link rel="stylesheet" href="style.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css"
+    />
   </head>
   <body>
-    <header class="admin-header">
-      <h1>إدارة الشواهد | لوحة التحكم للمدير</h1>
-      <button class="btn-logout" onclick="logout()">خروج</button>
-    </header>
+    <nav class="navbar navbar-dark bg-dark shadow mb-4 sticky-top">
+      <div class="container">
+        <span class="navbar-brand mb-0 h1 fw-bold">
+          <i class="bi bi-shield-lock-fill me-2"></i> إدارة الشواهد | لوحة تحكم
+          المدير
+        </span>
+        <button class="btn btn-danger btn-sm fw-bold px-4" onclick="logout()">
+          خروج <i class="bi bi-box-arrow-right ms-1"></i>
+        </button>
+      </div>
+    </nav>
 
-    <div class="main-content">
-      <div class="stats-summary">
-        <div class="stat-card">
-          <h3>إجمالي الشواهد</h3>
-          <p id="totalCount">0</p>
+    <div class="container pb-5">
+      <div class="row g-4 mb-5">
+        <div class="col-md-6">
+          <div
+            class="card border-0 shadow-sm border-start border-primary border-5 py-3"
+          >
+            <div
+              class="card-body d-flex align-items-center justify-content-between px-4"
+            >
+              <div>
+                <h6 class="text-muted fw-bold mb-1">إجمالي الشواهد</h6>
+                <h2 id="totalCount" class="display-5 fw-bold mb-0 text-primary">
+                  0
+                </h2>
+              </div>
+              <div class="fs-1 text-light">📊</div>
+            </div>
+          </div>
         </div>
-        <div class="stat-card">
-          <h3>تحديثات اليوم</h3>
-          <p id="todayCount">0</p>
+
+        <div class="col-md-6">
+          <div
+            class="card border-0 shadow-sm border-start border-success border-5 py-3"
+          >
+            <div
+              class="card-body d-flex align-items-center justify-content-between px-4"
+            >
+              <div>
+                <h6 class="text-muted fw-bold mb-1">تحديثات اليوم</h6>
+                <h2 id="todayCount" class="display-5 fw-bold mb-0 text-success">
+                  0
+                </h2>
+              </div>
+              <div class="fs-1 text-light">📅</div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="table-container">
-        <div id="loading">جاري جلب بيانات الشواهد المرفوعة...</div>
-        <table id="adminTable" style="display: none">
-          <thead>
-            <tr>
-              <th>الوقت والتاريخ</th>
-              <th>المعلم</th>
-              <th>اسم الشاهد</th>
-              <th>الإجراء</th>
-            </tr>
-          </thead>
-          <tbody id="adminBody"></tbody>
-        </table>
+      <div class="card shadow-sm border-0 border-radius-15">
+        <div class="card-header bg-white py-3 border-bottom">
+          <h5 class="mb-0 fw-bold text-dark">سجل المرفوعات الأخير</h5>
+        </div>
+        <div class="card-body p-0">
+          <div id="loading" class="text-center py-5">
+            <div class="spinner-border text-primary" role="status"></div>
+            <p class="mt-2 text-muted fw-bold">
+              جاري جلب بيانات الشواهد المرفوعة...
+            </p>
+          </div>
+
+          <div class="table-responsive">
+            <table
+              id="adminTable"
+              class="table table-hover align-middle mb-0"
+              style="display: none"
+            >
+              <thead class="table-light">
+                <tr>
+                  <th class="py-3 px-4">الوقت والتاريخ</th>
+                  <th class="py-3 text-center">المعلم</th>
+                  <th class="py-3 text-center">اسم الشاهد</th>
+                  <th class="py-3 text-center">الإجراء</th>
+                </tr>
+              </thead>
+              <tbody id="adminBody"></tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
 

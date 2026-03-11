@@ -308,39 +308,67 @@
         XLSX.writeFile(workbook, fileName);
       }
 
-      function exportToPDF() {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
+     function exportToPDF() {
+    const table = document.getElementById("adminBody").parentElement;
+    if (!table) return;
 
-        // جلب البيانات المعروضة حالياً في الجدول فقط
-        const table = document.getElementById("adminBody");
-        const rows = Array.from(table.rows);
+    const tempDiv = document.createElement("div");
+    tempDiv.style.padding = "15px";
+    tempDiv.style.direction = "rtl";
 
-        // تجهيز البيانات بتنسيق مصفوفة
-        const data = rows.map((row) => [
-          row.cells[0].innerText,
-          row.cells[1].innerText,
-          row.cells[2].innerText,
-          row.cells[3].innerText,
-          row.cells[4].innerText,
-        ]);
+    // إضافة ترويسة التقرير
+    const headerHtml = `
+        <div style="text-align:center; margin-bottom:15px; font-family: Arial, sans-serif;">
+            <h2 style="color:#064e3b; margin:0; font-size: 22px;">تقرير الشواهد المدرسية  </h2>
+            <p style="color:#859147; font-weight:bold; margin:5px 0;">مجمع الإمام يعقوب البصري وأبو عمرو البصري</p>
+            <div style="border-bottom: 2px solid #d4af37; width: 50%; margin: 10px auto;"></div>
+        </div>`;
 
-        doc.autoTable({
-          head: [["المرحلة", "المجال", "المؤشر", "بواسطة", "التاريخ"]],
-          body: data,
-          styles: { font: "Arial", fontSize: 10 },
-          headStyles: {
-            fillColor: [41, 128, 185],
-            textColor: 255,
-            fontStyle: "bold",
-          },
-          startY: 20,
-        });
+    const tableClone = table.cloneNode(true);
+    tableClone.style.width = "100%";
+    tableClone.style.fontSize = "12px";
+    
+    // إزالة عمود الإجراءات نهائياً
+    const rows = tableClone.querySelectorAll("tr");
+    rows.forEach(row => { 
+        if (row.lastElementChild) row.lastElementChild.remove(); 
+    });
 
-        // تحميل الملف باسم يحتوي على التاريخ الحالي
-        const fileName = `تقرير_الشواهد_${new Date().toLocaleDateString("ar-SA")}.pdf`;
-        doc.save(fileName);
-      }
-    </script>
+    tempDiv.innerHTML = headerHtml;
+    tempDiv.appendChild(tableClone);
+    document.body.appendChild(tempDiv);
+
+    const opt = {
+        margin: [15, 10, 20, 10],
+        filename: 'تقرير_الشواهد_المدرسية.pdf',
+        html2canvas: { 
+            scale: 2, 
+            useCORS: true,
+            letterRendering: true 
+        },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+    };
+
+    html2pdf().set(opt).from(tempDiv).toPdf().get('pdf').then(function(pdf) {
+        const totalPages = pdf.internal.getNumberOfPages();
+        for (let i = 1; i <= totalPages; i++) {
+            pdf.setPage(i);
+            pdf.setFontSize(10);
+            pdf.setTextColor(150);
+            
+            // الترقيم في المنتصف بالأسفل
+            const pageText = "Page " + i + " of " + totalPages;
+            pdf.text(pageText, pdf.internal.pageSize.getWidth() / 2, pdf.internal.pageSize.getHeight() - 10, { align: 'center' });
+            
+            // التاريخ في جهة اليسار
+            const dateStr = new Date().toLocaleDateString('en-GB'); 
+            pdf.setFontSize(8);
+            pdf.text("Exported: " + dateStr, 15, pdf.internal.pageSize.getHeight() - 10);
+        }
+    }).save().then(() => {
+        document.body.removeChild(tempDiv);
+    });
+}
+   </script>
   </body>
 </html>

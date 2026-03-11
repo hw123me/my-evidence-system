@@ -11,44 +11,30 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body class="bg-light">
-    <nav
-      class="navbar navbar-expand-lg navbar-dark shadow-sm sticky-top mb-4"
-      style="
-        background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
-        border-bottom: 3px solid #fbbf24;
-      "
-    >
-      <div class="container py-1">
-        <div class="navbar-brand d-flex align-items-center">
-          <div
-            class="bg-white text-primary rounded-3 d-flex justify-content-center align-items-center me-3 shadow-sm"
-            style="width: 40px; height: 40px; font-size: 1.2rem"
-          >
-            🛡️
-          </div>
-          <div>
-            <span class="h5 mb-0 fw-bold d-block text-white"
-              >إدارة الشواهد</span
-            >
-            <small
-              class="text-white-50 fw-light"
-              style="font-size: 0.75rem; letter-spacing: 1px"
-              >لوحة تحكم المدير</small
-            >
-          </div>
-        </div>
-        <div class="ms-auto">
-          <button
-            class="btn btn-link text-white text-decoration-none fw-bold d-flex align-items-center gap-2 border border-white-50 rounded-pill px-3 py-1 hover-opacity"
-            onclick="logout()"
-            style="background: rgba(255, 255, 255, 0.1)"
-          >
-            <span class="small">خروج</span>
-            <span>🚪</span>
-          </button>
-        </div>
+    <nav class="navbar navbar-expand-lg navbar-dark shadow mb-4 royal-navbar">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center" href="#">
+      <div class="royal-icon-box me-2">
+         <i class="fas fa-award"></i> </div>
+      <div class="brand-text">
+        <span class="d-block fw-bold mb-0 title-main">إدارة الشواهد المدرسية</span>
+        <small class="title-sub">مجمع الإمام يعقوب البصري وأبو عمرو البصري  </small>
       </div>
-    </nav>
+    </a>
+    
+    <div class="d-flex align-items-center">
+      <div class="user-pill-royal d-none d-md-flex align-items-center me-3" id="userInfo">
+        <i class="fas fa-user-shield gold-text"></i>
+        <span class="ms-2 small">جاري التحقق...</span>
+      </div>
+      
+      <button onclick="logout()" class="btn btn-royal-logout">
+        <i class="fas fa-sign-out-alt"></i>
+        <span class="d-none d-sm-inline ms-1">تسجيل الخروج</span>
+      </button>
+    </div>
+  </div>
+</nav>
 
     <div class="container pb-5">
       <div class="row g-4 mb-4">
@@ -147,13 +133,20 @@
     <script>
       const SCRIPT_URL =
         "https://script.google.com/macros/s/AKfycbzxVQCCJRZaptxBssvkq1dmn0Dk_FSKv1y-Q2UaOlIDcAT8nvMC98U34rx9ZB5Zk4sG/exec";
-
+    
       if (localStorage.getItem("userRole") !== "مدير") {
         window.location.href = "index.html";
       } else {
         loadAdminData();
       }
-
+      const role = localStorage.getItem("userRole");
+      const name = localStorage.getItem("userName");
+      const stage = localStorage.getItem("userStage");
+      document.getElementById("userInfo").innerHTML = `
+        <i class="fas fa-user-circle me-1"></i> ${name} 
+        <span class="badge bg-light text-dark ms-2">${stage}</span>
+        <span class="badge bg-info ms-1">${role}</span>
+      `;
       async function loadAdminData() {
         try {
           const response = await fetch(SCRIPT_URL, {

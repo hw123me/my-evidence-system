@@ -184,6 +184,7 @@
             // حفظ البيانات والانتقال
             localStorage.setItem("userName", result.fullname);
             localStorage.setItem("userRole", result.role);
+            localStorage.setItem("userStage", result.stage);
             localStorage.setItem("userEmail", payload.useremail);
 
             const userRole = result.role.trim();

@@ -14,12 +14,12 @@
             <div id="loginForm" class="card shadow p-4 border-0">
               <h2 class="text-center text-primary mb-4">مرحباً بك</h2>
               <div class="mb-3">
-                <label class="form-label fw-bold">اسم المستخدم</label>
+                <label class="form-label fw-bold">البريد الإلكتروني</label>
                 <input
-                  type="text"
+                  type="email"
                   id="logUser"
                   class="form-control"
-                  placeholder="أدخل اسم المستخدم"
+                  placeholder="أدخل بريدك الإلكتروني"
                 />
               </div>
               <div class="mb-3">
@@ -38,7 +38,8 @@
               >
                 دخول للنظام
               </button>
-              <p class="text-center mt-3 small text-muted">
+                <!-- Link to switch to registration form 
+                <p class="text-center mt-3 small text-muted">
                 ليس لديك حساب؟
                 <span
                   class="text-primary fw-bold pointer"
@@ -46,7 +47,8 @@
                   onclick="toggleForms()"
                   >سجل الآن</span
                 >
-              </p>
+                </p>
+                -->
             </div>
 
             <div id="registerForm" class="card shadow p-4 border-0 d-none">
@@ -61,12 +63,12 @@
                 />
               </div>
               <div class="mb-3">
-                <label class="form-label fw-bold">اسم المستخدم</label>
+                <label class="form-label fw-bold">البريد الإلكتروني</label>
                 <input
-                  type="text"
+                  type="email"
                   id="regUser"
                   class="form-control"
-                  placeholder="يستخدم للدخول"
+                  placeholder="أدخل بريدك الإلكتروني"
                 />
               </div>
               <div class="mb-3">
@@ -74,7 +76,9 @@
                 <select id="regRole" class="form-select">
                   <option value="معلم">معلم</option>
                   <option value="وكيل">وكيل</option>
-                  <option value="مدير">مدير</option>
+                  <option value="موجه طلابي">موجه طلابي</option>
+                  <option value="رائد نشاط">رائد نشاط</option>
+                  <option value="محضر مختبر">محضر مختبر</option>
                 </select>
               </div>
               <div class="mb-3">
@@ -155,12 +159,12 @@
 
         const payload = {
           action: "login",
-          username: document.getElementById("logUser").value.trim(),
+          useremail: document.getElementById("logUser").value.trim(),
           password: document.getElementById("logPass").value,
         };
 
-        if (!payload.username || !payload.password) {
-          alert("يرجى إدخال اسم المستخدم وكلمة المرور");
+        if (!payload.useremail || !payload.password) {
+          alert("يرجى إدخال البريد الإلكتروني وكلمة المرور");
           return;
         }
 
@@ -180,7 +184,7 @@
             // حفظ البيانات والانتقال
             localStorage.setItem("userName", result.fullname);
             localStorage.setItem("userRole", result.role);
-            localStorage.setItem("userID", payload.username);
+            localStorage.setItem("userEmail", payload.useremail);
 
             const userRole = result.role.trim();
             if (userRole === "مدير") {

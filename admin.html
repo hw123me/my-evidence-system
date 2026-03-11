@@ -182,8 +182,8 @@
                             <td><span class="badge bg-info-subtle text-info border border-info-subtle px-3 py-2 rounded-2">${row.evidenceTitle}</span></td>
                             <td>
                                 <a href="${row.fileUrl}" target="_blank" class="btn btn-primary btn-sm px-3 fw-bold shadow-sm">👁️  </a>
-                                 <button onclick="deleteFile('${row.fileId},${row.username}')" class="btn btn-sm btn-outline-danger py-0">🗑️</button>
-                            </td>
+                            <button onclick="deleteFile('${row.fileId}', '${row.username}')" class="btn btn-sm btn-outline-danger py-0">🗑️</button>
+                                </td>
                         </tr>`;
             tableBody.innerHTML += tr;
           });
@@ -212,7 +212,7 @@
           }
         }
       }
-      async function deleteFile(fileId,userID) {
+      async function deleteFile(fileId, userID) {
         if (!confirm("هل أنت متأكد من حذف هذا الملف نهائياً؟")) return;
         try {
           const response = await fetch(SCRIPT_URL, {

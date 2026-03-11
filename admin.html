@@ -212,7 +212,7 @@
           }
         }
       }
-      async function deleteFile(fileId, userID) {
+      async function deleteFile(fileId, username) {
         if (!confirm("هل أنت متأكد من حذف هذا الملف نهائياً؟")) return;
         try {
           const response = await fetch(SCRIPT_URL, {
@@ -220,7 +220,7 @@
             body: JSON.stringify({
               action: "deleteFile",
               fileId: fileId,
-              username: userID,
+              username: username,
             }),
           });
           const result = await response.json();

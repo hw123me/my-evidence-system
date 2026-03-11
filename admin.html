@@ -130,8 +130,10 @@
               <thead class="table-light">
                 <tr>
                   <th class="py-3 px-4 text-start">الوقت والتاريخ</th>
+                  <th class="py-3">المرحلة </th>
                   <th class="py-3">اسم المعلم</th>
-                  <th class="py-3">اسم الشاهد</th>
+                  <th class="py-3">المجال </th>
+                  <th class="py-3">المعيار </th>
                   <th class="py-3">الإجراء</th>
                 </tr>
               </thead>
@@ -178,8 +180,11 @@
             const tr = `
                         <tr>
                             <td class="px-4 text-start small text-muted">${new Date(row.date).toLocaleString("ar-SA")}</td>
+                            <td class="fw-bold text-dark">${row.stage}</td>
                             <td class="fw-bold text-dark">${row.username}</td>
-                            <td><span class="badge bg-info-subtle text-info border border-info-subtle px-3 py-2 rounded-2">${row.evidenceTitle}</span></td>
+                            <td><span class="badge bg-info-subtle text-info border border-info-subtle px-3 py-2 rounded-2">${row.domain}</span></td>
+                             <td><span class="badge bg-info-subtle text-info border border-info-subtle px-3 py-2 rounded-2">${row.code}:${row.standard}</span></td>
+ 
                             <td>
                                 <a href="${row.fileUrl}" target="_blank" class="btn btn-primary btn-sm px-3 fw-bold shadow-sm">👁️  </a>
                             <button onclick="deleteFile('${row.fileId}', '${row.username}', this)" class="btn btn-sm btn-outline-danger py-0">🗑️</button>
@@ -201,7 +206,7 @@
 
         for (let i = 1; i < tr.length; i++) {
           let tdName = tr[i].getElementsByTagName("td")[1];
-          let tdTitle = tr[i].getElementsByTagName("td")[2];
+          let tdTitle = tr[i].getElementsByTagName("td")[3];
           if (tdName || tdTitle) {
             let textValue =
               (tdName.textContent || tdName.innerText) +

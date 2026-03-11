@@ -9,15 +9,15 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css"
     />
   </head>
-  <body class="bg-light d-flex align-items-center vh-100">
-    <nav class="navbar navbar-dark bg-dark shadow mb-4 sticky-top">
+ <body class="bg-light">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm sticky-top mb-4">
       <div class="container">
-        <span class="navbar-brand mb-0 h1 fw-bold">
-          <i class="bi bi-shield-lock-fill me-2"></i> إدارة الشواهد | لوحة تحكم
-          المدير
+        <span class="navbar-brand mb-0 h1 fw-bold d-flex align-items-center">
+          <span class="me-2">🛡️</span> إدارة الشواهد | لوحة تحكم المدير
         </span>
-        <button class="btn btn-danger btn-sm fw-bold px-4" onclick="logout()">
-          خروج <i class="bi bi-box-arrow-right ms-1"></i>
+        <button class="btn btn-danger btn-sm fw-bold px-4 shadow-sm" onclick="logout()">
+          خروج 🚪
         </button>
       </div>
     </nav>
@@ -25,69 +25,54 @@
     <div class="container pb-5">
       <div class="row g-4 mb-5">
         <div class="col-md-6">
-          <div
-            class="card border-0 shadow-sm border-start border-primary border-5 py-3"
-          >
-            <div
-              class="card-body d-flex align-items-center justify-content-between px-4"
-            >
+          <div class="card border-0 shadow-sm border-start border-primary border-5 py-3 h-100">
+            <div class="card-body d-flex align-items-center justify-content-between px-4">
               <div>
-                <h6 class="text-muted fw-bold mb-1">إجمالي الشواهد</h6>
-                <h2 id="totalCount" class="display-5 fw-bold mb-0 text-primary">
-                  0
-                </h2>
+                <h6 class="text-muted fw-bold mb-1 small text-uppercase">إجمالي الشواهد</h6>
+                <h2 id="totalCount" class="display-5 fw-bold mb-0 text-primary">0</h2>
               </div>
-              <div class="fs-1 text-light">📊</div>
+              <div class="display-4 opacity-25">📊</div>
             </div>
           </div>
         </div>
 
         <div class="col-md-6">
-          <div
-            class="card border-0 shadow-sm border-start border-success border-5 py-3"
-          >
-            <div
-              class="card-body d-flex align-items-center justify-content-between px-4"
-            >
+          <div class="card border-0 shadow-sm border-start border-success border-5 py-3 h-100">
+            <div class="card-body d-flex align-items-center justify-content-between px-4">
               <div>
-                <h6 class="text-muted fw-bold mb-1">تحديثات اليوم</h6>
-                <h2 id="todayCount" class="display-5 fw-bold mb-0 text-success">
-                  0
-                </h2>
+                <h6 class="text-muted fw-bold mb-1 small text-uppercase">تحديثات اليوم</h6>
+                <h2 id="todayCount" class="display-5 fw-bold mb-0 text-success">0</h2>
               </div>
-              <div class="fs-1 text-light">📅</div>
+              <div class="display-4 opacity-25">📅</div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="card shadow-sm border-0 border-radius-15">
-        <div class="card-header bg-white py-3 border-bottom">
+      <div class="card shadow-sm border-0 rounded-3">
+        <div class="card-header bg-white py-3 d-flex align-items-center justify-content-between border-bottom">
           <h5 class="mb-0 fw-bold text-dark">سجل المرفوعات الأخير</h5>
+          <span class="badge bg-secondary rounded-pill fw-light px-3">محدث لحظياً</span>
         </div>
         <div class="card-body p-0">
+          
           <div id="loading" class="text-center py-5">
             <div class="spinner-border text-primary" role="status"></div>
-            <p class="mt-2 text-muted fw-bold">
-              جاري جلب بيانات الشواهد المرفوعة...
-            </p>
+            <p class="mt-3 text-secondary fw-bold">جاري جلب بيانات الشواهد المرفوعة...</p>
           </div>
 
           <div class="table-responsive">
-            <table
-              id="adminTable"
-              class="table table-hover align-middle mb-0"
-              style="display: none"
-            >
+            <table id="adminTable" class="table table-hover align-middle mb-0 text-center" style="display: none">
               <thead class="table-light">
                 <tr>
-                  <th class="py-3 px-4">الوقت والتاريخ</th>
-                  <th class="py-3 text-center">المعلم</th>
-                  <th class="py-3 text-center">اسم الشاهد</th>
-                  <th class="py-3 text-center">الإجراء</th>
+                  <th class="py-3 px-4 text-start">الوقت والتاريخ</th>
+                  <th class="py-3">اسم المعلم</th>
+                  <th class="py-3">اسم الشاهد</th>
+                  <th class="py-3">الإجراء</th>
                 </tr>
               </thead>
-              <tbody id="adminBody"></tbody>
+              <tbody id="adminBody">
+                  </tbody>
             </table>
           </div>
         </div>
@@ -95,8 +80,15 @@
     </div>
 
     <script>
-      const SCRIPT_URL =
-        "https://script.google.com/macros/s/AKfycbzxVQCCJRZaptxBssvkq1dmn0Dk_FSKv1y-Q2UaOlIDcAT8nvMC98U34rx9ZB5Zk4sG/exec";
+      const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzxVQCCJRZaptxBssvkq1dmn0Dk_FSKv1y-Q2UaOlIDcAT8nvMC98U34rx9ZB5Zk4sG/exec";
+
+      // التحقق من الصلاحيات قبل التحميل
+      if (localStorage.getItem("userRole") !== "مدير") {
+        alert("غير مصرح لك بدخول هذه الصفحة");
+        window.location.href = "index.html";
+      } else {
+        loadAdminData();
+      }
 
       async function loadAdminData() {
         try {
@@ -110,37 +102,38 @@
           document.getElementById("loading").style.display = "none";
           document.getElementById("adminTable").style.display = "table";
 
-          // حساب الإحصائيات البسيطة
+          // تحديث الإحصائيات
           document.getElementById("totalCount").innerText = data.length;
-
-          // 1. الحصول على تاريخ اليوم بتنسيق محلي (مثلاً: 11/3/2026)
+          
           const today = new Date().toLocaleDateString();
-
-          // 2. فلترة البيانات مع تحويل تاريخ كل صف إلى تنسيق محلي قبل المقارنة
           const todaySubmissions = data.filter((row) => {
-            // نتحقق من وجود تاريخ أولاً، ثم نحوله لتنسيق محلي للمقارنة
             if (!row.date) return false;
-            const rowDate = new Date(row.date).toLocaleDateString();
-            return rowDate === today;
+            return new Date(row.date).toLocaleDateString() === today;
           }).length;
-
-          // 3. عرض النتيجة
           document.getElementById("todayCount").innerText = todaySubmissions;
 
+          // تعبئة الجدول بتصميم Bootstrap
+          tableBody.innerHTML = ""; // تصفير الجدول
           data.reverse().forEach((row) => {
             const tr = `
-                        <tr>
-                            <td>${row.date}</td>
-                            <td style="font-weight:bold;">${row.username}</td>
-                            <td>${row.evidenceTitle}</td>
-                            <td><a href="${row.fileUrl}" target="_blank" class="file-link">📁 فتح الملف</a></td>
-                        </tr>
-                    `;
+                <tr>
+                    <td class="px-4 text-start small text-muted">${new Date(row.date).toLocaleString('ar-SA')}</td>
+                    <td class="fw-bold text-dark">${row.username}</td>
+                    <td><span class="badge bg-info-subtle text-info border border-info-subtle px-3 py-2 rounded-2">${row.evidenceTitle}</span></td>
+                    <td>
+                        <a href="${row.fileUrl}" target="_blank" class="btn btn-primary btn-sm px-3 fw-bold shadow-sm">
+                           👁️ فتح الملف
+                        </a>
+                    </td>
+                </tr>
+            `;
             tableBody.innerHTML += tr;
           });
         } catch (error) {
-          document.getElementById("loading").innerText =
-            "❌ حدث خطأ في الاتصال، تأكد من إعدادات الـ Script.";
+          document.getElementById("loading").innerHTML = `
+            <div class="alert alert-danger m-3">
+                ❌ حدث خطأ في الاتصال بالسيرفر. يرجى المحاولة لاحقاً.
+            </div>`;
         }
       }
 
@@ -148,14 +141,6 @@
         localStorage.clear();
         window.location.href = "index.html";
       }
-
-      // حماية إضافية
-      if (localStorage.getItem("userRole") !== "مدير") {
-        alert("غير مصرح لك بدخول هذه الصفحة");
-        window.location.href = "index.html";
-      } else {
-        loadAdminData();
-      }
     </script>
-  </body>
+</body>
 </html>

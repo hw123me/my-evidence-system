@@ -10,115 +10,179 @@
     />
     <link rel="stylesheet" href="style.css" />
   </head>
-<body class="bg-light">
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top mb-4">
-        <div class="container">
-            <div class="navbar-brand d-flex align-items-center">
-                <div class="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center me-3" style="width: 45px; height: 45px">
-                    👤
-                </div>
-                <div>
-                    <h6 class="mb-0 fw-bold">مرحباً، <span id="displayName" class="text-primary">...</span></h6>
-                    <small class="text-muted">الدور: <span id="displayRole">...</span></small>
-                </div>
-            </div>
-            <div class="ms-auto">
-                <button class="btn btn-outline-danger btn-sm fw-bold px-3 py-2 rounded-pill" onclick="logout()">تسجيل الخروج 🚪</button>
-            </div>
+  <body class="bg-light">
+    <nav
+      class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top mb-4"
+    >
+      <div class="container">
+        <div class="navbar-brand d-flex align-items-center">
+          <div
+            class="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center me-3"
+            style="width: 45px; height: 45px"
+          >
+            👤
+          </div>
+          <div>
+            <h6 class="mb-0 fw-bold">
+              مرحباً، <span id="displayName" class="text-primary">...</span>
+            </h6>
+            <small class="text-muted"
+              >الدور: <span id="displayRole">...</span></small
+            >
+          </div>
         </div>
+        <div class="ms-auto">
+          <button
+            class="btn btn-outline-danger btn-sm fw-bold px-3 py-2 rounded-pill"
+            onclick="logout()"
+          >
+            تسجيل الخروج 🚪
+          </button>
+        </div>
+      </div>
     </nav>
 
     <div id="mainDashboard" class="container py-4">
-        <div class="welcome-section text-center mb-5">
-            <h1 class="display-6 fw-bold text-primary italic">قائمة شواهد التوثيق</h1>
-            <p class="text-muted">يمكنك استعراض ملفاتك المرفوعة أو إضافة ملفات جديدة لكل شاهد</p>
-        </div>
+      <div class="welcome-section text-center mb-5">
+        <h1 class="display-6 fw-bold text-primary italic">
+          قائمة شواهد التوثيق
+        </h1>
+        <p class="text-muted">
+          يمكنك استعراض ملفاتك المرفوعة أو إضافة ملفات جديدة لكل شاهد
+        </p>
+      </div>
 
-        <div id="evidenceContainer" class="row g-4">
-            <div class="col-12 text-center py-5">
-                <div class="spinner-border text-primary" role="status"></div>
-                <p class="mt-2 text-secondary fw-bold">جاري تحميل بيانات الشواهد والمرفوعات...</p>
-            </div>
+      <div id="evidenceContainer" class="row g-4">
+        <div class="col-12 text-center py-5">
+          <div class="spinner-border text-primary" role="status"></div>
+          <p class="mt-2 text-secondary fw-bold">
+            جاري تحميل بيانات الشواهد والمرفوعات...
+          </p>
         </div>
+      </div>
     </div>
 
     <div id="uploadSection" class="container py-5 d-none">
-        <div class="row justify-content-center">
-            <div class="col-md-7 col-lg-6">
-                <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
-                    <div class="card-header bg-primary text-white text-center py-4">
-                        <h4 class="mb-1 fw-bold text-white">رفع شاهد: <span id="targetEvidence" class="text-warning">...</span></h4>
-                    </div>
-                    <div class="card-body p-4 p-md-5 text-center">
-                        <div class="file-drop-area border border-2 border-dashed rounded-4 p-5 mb-4 position-relative bg-light" id="dropArea">
-                            <div class="mb-3 fs-1">📤</div>
-                            <h6 id="fileNameDisplay" class="text-secondary fw-bold">اضغط هنا لاختيار الملف أو اسحبه هنا</h6>
-                            <input type="file" id="fileInput" onchange="updateFileName()" class="position-absolute top-0 start-0 w-100 h-100 opacity-0 cursor-pointer" />
-                        </div>
-                        <div id="status" class="mt-3"></div>
-                        <div class="d-grid gap-2">
-                            <button id="uploadBtn" class="btn btn-success btn-lg fw-bold py-3 shadow-sm" onclick="uploadProcess()">ابدأ عملية الرفع 🚀</button>
-                            <button class="btn btn-link text-secondary mt-2" onclick="toggleView('main')">← إلغاء والعودة</button>
-                        </div>
-                    </div>
-                </div>
+      <div class="row justify-content-center">
+        <div class="col-md-7 col-lg-6">
+          <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+            <div class="card-header bg-primary text-white text-center py-4">
+              <h4 class="mb-1 fw-bold text-white">
+                رفع شاهد:
+                <span id="targetEvidence" class="text-warning">...</span>
+              </h4>
             </div>
+            <div class="card-body p-4 p-md-5 text-center">
+              <div
+                class="file-drop-area border border-2 border-dashed rounded-4 p-5 mb-4 position-relative bg-light"
+                id="dropArea"
+              >
+                <div class="mb-3 fs-1">📤</div>
+                <h6 id="fileNameDisplay" class="text-secondary fw-bold">
+                  اضغط هنا لاختيار الملف أو اسحبه هنا
+                </h6>
+                <input
+                  type="file"
+                  id="fileInput"
+                  onchange="updateFileName()"
+                  class="position-absolute top-0 start-0 w-100 h-100 opacity-0 cursor-pointer"
+                />
+              </div>
+              <div id="status" class="mt-3"></div>
+              <div class="d-grid gap-2">
+                <button
+                  id="uploadBtn"
+                  class="btn btn-success btn-lg fw-bold py-3 shadow-sm"
+                  onclick="uploadProcess()"
+                >
+                  ابدأ عملية الرفع 🚀
+                </button>
+                <button
+                  class="btn btn-link text-secondary mt-2"
+                  onclick="toggleView('main')"
+                >
+                  ← إلغاء والعودة
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
 
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzxVQCCJRZaptxBssvkq1dmn0Dk_FSKv1y-Q2UaOlIDcAT8nvMC98U34rx9ZB5Zk4sG/exec";
-        const role = localStorage.getItem("userRole");
-        const name = localStorage.getItem("userName");
-        const userID = localStorage.getItem("userID");
+      const SCRIPT_URL =
+        "https://script.google.com/macros/s/AKfycbzxVQCCJRZaptxBssvkq1dmn0Dk_FSKv1y-Q2UaOlIDcAT8nvMC98U34rx9ZB5Zk4sG/exec";
+      const role = localStorage.getItem("userRole");
+      const name = localStorage.getItem("userName");
+      const userID = localStorage.getItem("userID");
 
-        if (!role) { window.location.href = "index.html"; }
+      if (!role) {
+        window.location.href = "index.html";
+      }
 
-        document.getElementById("displayName").innerText = name;
-        document.getElementById("displayRole").innerText = role;
+      document.getElementById("displayName").innerText = name;
+      document.getElementById("displayRole").innerText = role;
 
-        function toggleView(view, evidenceTitle = "") {
-            if (view === 'upload') {
-                document.getElementById("mainDashboard").classList.add("d-none");
-                document.getElementById("uploadSection").classList.remove("d-none");
-                document.getElementById("targetEvidence").innerText = evidenceTitle;
-            } else {
-                document.getElementById("uploadSection").classList.add("d-none");
-                document.getElementById("mainDashboard").classList.remove("d-none");
-                loadEvidence(); // إعادة تحميل البيانات لتحديث القوائم تحت الكروت
-            }
+      function toggleView(view, evidenceTitle = "") {
+        if (view === "upload") {
+          document.getElementById("mainDashboard").classList.add("d-none");
+          document.getElementById("uploadSection").classList.remove("d-none");
+          document.getElementById("targetEvidence").innerText = evidenceTitle;
+        } else {
+          document.getElementById("uploadSection").classList.add("d-none");
+          document.getElementById("mainDashboard").classList.remove("d-none");
+          loadEvidence(); // إعادة تحميل البيانات لتحديث القوائم تحت الكروت
         }
+      }
 
-        async function loadEvidence() {
-            try {
-                // جلب الشواهد والمرفوعات بالتوازي لسرعة الأداء
-                const [evRes, subRes] = await Promise.all([
-                    fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "getEvidence", role: role.trim() }) }),
-                    fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "getAllSubmissions" }) })
-                ]);
+      async function loadEvidence() {
+        try {
+          // جلب الشواهد والمرفوعات بالتوازي لسرعة الأداء
+          const [evRes, subRes] = await Promise.all([
+            fetch(SCRIPT_URL, {
+              method: "POST",
+              body: JSON.stringify({
+                action: "getEvidence",
+                role: role.trim(),
+              }),
+            }),
+            fetch(SCRIPT_URL, {
+              method: "POST",
+              body: JSON.stringify({ action: "getAllSubmissions" }),
+            }),
+          ]);
 
-                const evidenceList = await evRes.json();
-                const allSubmissions = await subRes.json();
-                const mySubmissions = allSubmissions.filter(s => s.username === userID);
+          const evidenceList = await evRes.json();
+          const allSubmissions = await subRes.json();
+          const mySubmissions = allSubmissions.filter(
+            (s) => s.username === userID,
+          );
 
-                const container = document.getElementById("evidenceContainer");
-                container.innerHTML = "";
+          const container = document.getElementById("evidenceContainer");
+          container.innerHTML = "";
 
-                evidenceList.forEach((item) => {
-                    // استخراج الملفات المرفوعة لهذا الشاهد تحديداً
-                    const relatedFiles = mySubmissions.filter(s => s.evidenceTitle === item.title);
-                    
-                    let filesHtml = relatedFiles.map(file => `
+          evidenceList.forEach((item) => {
+            // استخراج الملفات المرفوعة لهذا الشاهد تحديداً
+            const relatedFiles = mySubmissions.filter(
+              (s) => s.evidenceTitle === item.title,
+            );
+
+            let filesHtml = relatedFiles
+              .map(
+                (file) => `
                         <div class="d-flex justify-content-between align-items-center bg-white p-2 mb-2 rounded border shadow-sm">
                             <small class="text-muted"><i class="bi bi-clock me-1"></i>${file.date.split("T")[0]}</small>
                             <div class="btn-group">
                                 <a href="${file.fileUrl}" target="_blank" class="btn btn-sm btn-outline-primary py-0">👁️</a>
-                                <button onclick="deleteFile('${file.fileId}')" class="btn btn-sm btn-outline-danger py-0">🗑️</button>
+                                <button onclick="deleteFile('${file.fileId}', this)" class="btn btn-sm btn-outline-danger py-0">🗑️</button>
                             </div>
                         </div>
-                    `).join('');
+                    `,
+              )
+              .join("");
 
-                    container.innerHTML += `
+            container.innerHTML += `
                         <div class="col-md-6 col-lg-4">
                             <div class="card h-100 shadow-sm border-0 border-top border-primary border-4 rounded-3">
                                 <div class="card-body d-flex flex-column p-4">
@@ -137,82 +201,115 @@
                                 </div>
                             </div>
                         </div>`;
-                });
-            } catch (error) { console.error("Error loading data", error); }
+          });
+        } catch (error) {
+          console.error("Error loading data", error);
+        }
+      }
+
+      async function uploadProcess() {
+        const fileInput = document.getElementById("fileInput");
+        const status = document.getElementById("status");
+        const btn = document.getElementById("uploadBtn");
+        const selectedEvidence =
+          document.getElementById("targetEvidence").innerText;
+
+        if (fileInput.files.length === 0) {
+          status.innerHTML =
+            "<div class='alert alert-warning py-2 small'>⚠️ يرجى اختيار ملف</div>";
+          return;
         }
 
-        async function uploadProcess() {
-            const fileInput = document.getElementById("fileInput");
-            const status = document.getElementById("status");
-            const btn = document.getElementById("uploadBtn");
-            const selectedEvidence = document.getElementById("targetEvidence").innerText;
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+        btn.disabled = true;
+        status.innerHTML =
+          '<div class="spinner-border text-primary spinner-border-sm"></div> جاري الرفع...';
 
-            if (fileInput.files.length === 0) {
-                status.innerHTML = "<div class='alert alert-warning py-2 small'>⚠️ يرجى اختيار ملف</div>";
-                return;
+        reader.onload = async function (e) {
+          const base64Data = e.target.result.split(",")[1];
+          try {
+            const response = await fetch(SCRIPT_URL, {
+              method: "POST",
+              body: JSON.stringify({
+                action: "uploadFile",
+                username: userID,
+                evidenceTitle: selectedEvidence,
+                fileName: file.name,
+                mimeType: file.type,
+                base64Data: base64Data,
+              }),
+            });
+            const result = await response.json();
+            if (result.status === "success") {
+              status.innerHTML =
+                "<div class='alert alert-success py-2 small'>✅ تم الرفع بنجاح!</div>";
+              setTimeout(() => toggleView("main"), 1500);
+            } else {
+              status.innerHTML =
+                "<div class='alert alert-danger py-2 small'>❌ " +
+                result.message +
+                "</div>";
+              btn.disabled = false;
             }
+          } catch (error) {
+            status.innerHTML =
+              "<div class='alert alert-danger py-2 small'>❌ فشل الاتصال</div>";
+            btn.disabled = false;
+          }
+        };
+        reader.readAsDataURL(file);
+      }
 
-            const file = fileInput.files[0];
-            const reader = new FileReader();
-            btn.disabled = true;
-            status.innerHTML = '<div class="spinner-border text-primary spinner-border-sm"></div> جاري الرفع...';
-
-            reader.onload = async function (e) {
-                const base64Data = e.target.result.split(",")[1];
-                try {
-                    const response = await fetch(SCRIPT_URL, {
-                        method: "POST",
-                        body: JSON.stringify({
-                            action: "uploadFile",
-                            username: userID,
-                            evidenceTitle: selectedEvidence,
-                            fileName: file.name,
-                            mimeType: file.type,
-                            base64Data: base64Data
-                        })
-                    });
-                    const result = await response.json();
-                    if (result.status === "success") {
-                        status.innerHTML = "<div class='alert alert-success py-2 small'>✅ تم الرفع بنجاح!</div>";
-                        setTimeout(() => toggleView('main'), 1500);
-                    } else {
-                        status.innerHTML = "<div class='alert alert-danger py-2 small'>❌ " + result.message + "</div>";
-                        btn.disabled = false;
-                    }
-                } catch (error) {
-                    status.innerHTML = "<div class='alert alert-danger py-2 small'>❌ فشل الاتصال</div>";
-                    btn.disabled = false;
-                }
-            };
-            reader.readAsDataURL(file);
+      function updateFileName() {
+        const input = document.getElementById("fileInput");
+        const display = document.getElementById("fileNameDisplay");
+        if (input.files.length > 0) {
+          display.innerText = "📄 " + input.files[0].name;
+          display.className =
+            "text-primary fw-bold animate__animated animate__fadeIn";
         }
+      }
 
-        function updateFileName() {
-            const input = document.getElementById("fileInput");
-            const display = document.getElementById("fileNameDisplay");
-            if (input.files.length > 0) {
-                display.innerText = "📄 " + input.files[0].name;
-                display.className = "text-primary fw-bold animate__animated animate__fadeIn";
-            }
+      async function deleteFile(fileId, btnElement) {
+        if (!confirm("هل أنت متأكد من حذف هذا الملف نهائياً؟")) return;
+        // 1. حفظ الشكل الأصلي للزر وتعطيله
+        const originalContent = btnElement.innerHTML;
+        btnElement.disabled = true;
+        btnElement.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
+
+        try {
+          const response = await fetch(SCRIPT_URL, {
+            method: "POST",
+            body: JSON.stringify({
+              action: "deleteFile",
+              fileId: fileId,
+              username: userID,
+            }),
+          });
+          const result = await response.json();
+          if (result.status === "success") {
+            loadEvidence();
+          } else {
+            alert("خطأ: " + result.message);
+            // إعادة الزر لحالته الأصلية في حال فشل السيرفر
+            btnElement.disabled = false;
+            btnElement.innerHTML = originalContent;
+          }
+        } catch (e) {
+          alert("فشل الاتصال بالسيرفر");
+          btnElement.disabled = false;
+          btnElement.innerHTML = originalContent;
         }
+      }
 
-        async function deleteFile(fileId) {
-            if (!confirm("هل أنت متأكد من حذف هذا الملف نهائياً؟")) return;
-            try {
-                const response = await fetch(SCRIPT_URL, {
-                    method: "POST",
-                    body: JSON.stringify({ action: "deleteFile", fileId: fileId, username: userID })
-                });
-                const result = await response.json();
-                if (result.status === "success") { loadEvidence(); } 
-                else { alert("خطأ: " + result.message); }
-            } catch (e) { alert("فشل الاتصال بالسيرفر"); }
-        }
+      function logout() {
+        localStorage.clear();
+        window.location.href = "index.html";
+      }
 
-        function logout() { localStorage.clear(); window.location.href = "index.html"; }
-
-        // التحميل الأولي
-        loadEvidence();
+      // التحميل الأولي
+      loadEvidence();
     </script>
-</body>
+  </body>
 </html>

@@ -182,7 +182,7 @@
                             <td><span class="badge bg-info-subtle text-info border border-info-subtle px-3 py-2 rounded-2">${row.evidenceTitle}</span></td>
                             <td>
                                 <a href="${row.fileUrl}" target="_blank" class="btn btn-primary btn-sm px-3 fw-bold shadow-sm">👁️  </a>
-                            <button onclick="deleteFile('${row.fileId}', '${row.username}')" class="btn btn-sm btn-outline-danger py-0">🗑️</button>
+                            <button onclick="deleteFile('${row.fileId}', '${row.username}', this)" class="btn btn-sm btn-outline-danger py-0">🗑️</button>
                                 </td>
                         </tr>`;
             tableBody.innerHTML += tr;
@@ -212,8 +212,14 @@
           }
         }
       }
-      async function deleteFile(fileId, username) {
+      async function deleteFile(fileId, username, btnElement) {
         if (!confirm("هل أنت متأكد من حذف هذا الملف نهائياً؟")) return;
+
+        // 1. حفظ الشكل الأصلي للزر وتعطيله
+        const originalContent = btnElement.innerHTML;
+        btnElement.disabled = true;
+        btnElement.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
+
         try {
           const response = await fetch(SCRIPT_URL, {
             method: "POST",
@@ -223,17 +229,25 @@
               username: username,
             }),
           });
+
           const result = await response.json();
+
           if (result.status === "success") {
+            // إعادة تحميل البيانات (السبينر سيختفي تلقائياً لأن الجدول سيعاد بناؤه)
             loadAdminData();
           } else {
             alert("خطأ: " + result.message);
+            // إعادة الزر لحالته الأصلية في حال فشل السيرفر
+            btnElement.disabled = false;
+            btnElement.innerHTML = originalContent;
           }
         } catch (e) {
           alert("فشل الاتصال بالسيرفر");
+          // إعادة الزر لحالته الأصلية في حال فشل الاتصال
+          btnElement.disabled = false;
+          btnElement.innerHTML = originalContent;
         }
       }
-
       function logout() {
         localStorage.clear();
         window.location.href = "index.html";

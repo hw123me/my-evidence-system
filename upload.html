@@ -89,7 +89,8 @@
         "https://script.google.com/macros/s/AKfycbzxVQCCJRZaptxBssvkq1dmn0Dk_FSKv1y-Q2UaOlIDcAT8nvMC98U34rx9ZB5Zk4sG/exec";
 
       const selectedEvidence = localStorage.getItem("selectedEvidence");
-      const username = localStorage.getItem("userID");
+      const username = localStorage.getItem("userID");//username
+      const name = localStorage.getItem("userName");//full name
 
       document.getElementById("targetEvidence").innerText =
         selectedEvidence || "غير محدد";
@@ -123,7 +124,7 @@
           const base64Data = e.target.result.split(",")[1];
           const payload = {
             action: "uploadFile",
-            username: username,
+            username: name,
             evidenceTitle: selectedEvidence,
             fileName: file.name,
             mimeType: file.type,

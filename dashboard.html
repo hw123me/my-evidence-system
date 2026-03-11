@@ -244,9 +244,9 @@
             if (result.status === "success") {
               status.innerHTML =
                 "<div class='alert alert-success py-2 small'>✅ تم الرفع بنجاح!</div>";
+              document.getElementById("targetEvidence").innerText = "";
+              document.getElementById("displayName").innerText = "";
               setTimeout(() => toggleView("main"), 1000);
-              document.getElementById("targetEvidence").innerText = "...";
-              document.getElementById("displayName").innerText = "...";
             } else {
               status.innerHTML =
                 "<div class='alert alert-danger py-2 small'>❌ " +

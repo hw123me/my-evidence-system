@@ -8,35 +8,63 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
     <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark shadow mb-4 royal-navbar">
-  <div class="container">
-    <a class="navbar-brand d-flex align-items-center" href="#">
-      <div class="royal-icon-box me-2">
-         <i class="fas fa-award"></i> </div>
-      <div class="brand-text">
-        <span class="d-block fw-bold mb-0 title-main">إدارة الشواهد المدرسية</span>
-        <small class="title-sub">مجمع الإمام يعقوب البصري وأبو عمرو البصري  </small>
+      <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="#">
+          <div class="royal-icon-box me-2">
+            <i class="fas fa-award"></i>
+          </div>
+          <div class="brand-text">
+            <span class="d-block fw-bold mb-0 title-main"
+              >إدارة الشواهد المدرسية</span
+            >
+            <small class="title-sub"
+              >مجمع الإمام يعقوب البصري وأبو عمرو البصري
+            </small>
+          </div>
+        </a>
+
+        <div class="d-flex align-items-center">
+          <div
+            class="user-pill-royal d-none d-md-flex align-items-center me-3"
+            id="userInfo"
+          >
+            <i class="fas fa-user-shield gold-text"></i>
+            <span class="ms-2 small">جاري التحقق...</span>
+          </div>
+
+          <button onclick="logout()" class="btn btn-royal-logout">
+            <i class="fas fa-sign-out-alt"></i>
+            <span class="d-none d-sm-inline ms-1">تسجيل الخروج</span>
+          </button>
+        </div>
       </div>
-    </a>
-    
-    <div class="d-flex align-items-center">
-      <div class="user-pill-royal d-none d-md-flex align-items-center me-3" id="userInfo">
-        <i class="fas fa-user-shield gold-text"></i>
-        <span class="ms-2 small">جاري التحقق...</span>
-      </div>
-      
-      <button onclick="logout()" class="btn btn-royal-logout">
-        <i class="fas fa-sign-out-alt"></i>
-        <span class="d-none d-sm-inline ms-1">تسجيل الخروج</span>
-      </button>
-    </div>
-  </div>
-</nav>
+    </nav>
 
     <div class="container pb-5">
+      <div class="d-flex gap-2">
+        <button class="btn btn-success btn-sm" onclick="exportToExcel()">
+          <i class="fas fa-file-excel me-1"></i> Excel
+        </button>
+        <button class="btn btn-danger btn-sm" onclick="exportToPDF()">
+          <i class="fas fa-file-pdf me-1"></i> PDF
+        </button>
+        <button
+          class="btn btn-outline-secondary btn-sm"
+          onclick="loadAdminData()"
+        >
+          تحديث ↻
+        </button>
+      </div>
       <div class="row g-4 mb-4">
         <div class="col-md-6">
           <div
@@ -116,10 +144,10 @@
               <thead class="table-light">
                 <tr>
                   <th class="py-3 px-4 text-start">الوقت والتاريخ</th>
-                  <th class="py-3">المرحلة </th>
+                  <th class="py-3">المرحلة</th>
                   <th class="py-3">اسم المعلم</th>
-                  <th class="py-3">المجال </th>
-                  <th class="py-3">المعيار </th>
+                  <th class="py-3">المجال</th>
+                  <th class="py-3">المعيار</th>
                   <th class="py-3">الإجراء</th>
                 </tr>
               </thead>
@@ -133,7 +161,7 @@
     <script>
       const SCRIPT_URL =
         "https://script.google.com/macros/s/AKfycbzxVQCCJRZaptxBssvkq1dmn0Dk_FSKv1y-Q2UaOlIDcAT8nvMC98U34rx9ZB5Zk4sG/exec";
-    
+
       if (localStorage.getItem("userRole") !== "مدير") {
         window.location.href = "index.html";
       } else {
@@ -250,6 +278,64 @@
         localStorage.clear();
         window.location.href = "index.html";
       }
+      function exportToExcel() {
+        // جلب البيانات المعروضة حالياً في الجدول فقط
+        const table = document.getElementById("adminBody");
+        const rows = Array.from(table.rows);
+
+        // تجهيز البيانات بتنسيق مصفوفة
+        const data = rows.map((row) => ({
+          المرحلة: row.cells[0].innerText,
+          المجال: row.cells[1].innerText,
+          المؤشر: row.cells[2].innerText,
+          بواسطة: row.cells[3].innerText,
+          التاريخ: row.cells[4].innerText,
+        }));
+
+        const worksheet = XLSX.utils.json_to_sheet(data);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "الشواهد");
+
+        // تحميل الملف باسم يحتوي على التاريخ الحالي
+        const fileName = `تقرير_الشواهد_${new Date().toLocaleDateString("ar-SA")}.xlsx`;
+        XLSX.writeFile(workbook, fileName);
+      }
+
+      function exportToPDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        // جلب البيانات المعروضة حالياً في الجدول فقط
+        const table = document.getElementById("adminBody");
+        const rows = Array.from(table.rows);
+
+        // تجهيز البيانات بتنسيق مصفوفة
+        const data = rows.map((row) => [
+          row.cells[0].innerText,
+          row.cells[1].innerText,
+          row.cells[2].innerText,
+          row.cells[3].innerText,
+          row.cells[4].innerText,
+        ]);
+
+        doc.autoTable({
+          head: [["المرحلة", "المجال", "المؤشر", "بواسطة", "التاريخ"]],
+          body: data,
+          styles: { font: "Arial", fontSize: 10 },
+          headStyles: {
+            fillColor: [41, 128, 185],
+            textColor: 255,
+            fontStyle: "bold",
+          },
+          startY: 20,
+        });
+
+        // تحميل الملف باسم يحتوي على التاريخ الحالي
+        const fileName = `تقرير_الشواهد_${new Date().toLocaleDateString("ar-SA")}.pdf`;
+        doc.save(fileName);
+      }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/MrRio/jsPDF/dist/jspdf.customfonts.min.js"></script>
   </body>
 </html>
